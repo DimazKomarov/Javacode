@@ -1,0 +1,6 @@
+https://example.com
+https://httpbin.org/status/404
+https://nonexistent.url
+https://jsonplaceholder.typicode.com/posts/1
+https://dummyjson.com/products/1
+https://api.openweathermap.org/data/2.5/weather?q=London&appid=YOUR_API_KEY
