@@ -1,0 +1,18 @@
+[
+  {
+    "method": "SingleThread",
+    "time": 0.06095552444458008
+  },
+  {
+    "method": "ThreadPoolExecutor",
+    "time": 0.09112954139709473
+  },
+  {
+    "method": "MultiprocessingPool",
+    "time": 0.3533754348754883
+  },
+  {
+    "method": "MultiprocessingProcesses",
+    "time": 0.35782289505004883
+  }
+]
