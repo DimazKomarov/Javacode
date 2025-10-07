@@ -1,6 +1,5 @@
 import concurrent.futures
 import json
-import math
 import multiprocessing
 import random
 import time
@@ -11,7 +10,10 @@ def generate_data(n: int) -> list[int]:
 
 
 def process_number(n: int) -> int:
-    return math.factorial(n)
+    res = 1
+    for i in range(1, n + 1):
+        res *= i
+    return res
 
 
 # Вариант А: Ипользование пула потоков с concurrent.futures.
@@ -28,24 +30,45 @@ def multiprocessing_pool(nums: list[int]) -> None:
 
 # Вариант В: Создание отдельных процессов с использованием multiprocessing.Process
 # и очередей (multiprocessing.Queue) для передачи данных.
-def worker(nums: list[int], output: multiprocessing.Queue) -> None:
-    for num in nums:
-        output.put(num)
+def worker_with_queue(
+    input_q: multiprocessing.Queue, output_q: multiprocessing.Queue
+) -> None:
+    while True:
+        num = input_q.get()
+        if num is None:  # sentinel — сигнал завершения
+            break
+        result = process_number(num)
+        output_q.put(result)
 
 
 def multiprocessing_processes(nums: list[int]) -> None:
-    output = multiprocessing.Queue()
-    chunk_size = len(nums) // multiprocessing.cpu_count()
+    cpu_count = multiprocessing.cpu_count()
+    input_q = multiprocessing.Queue()
+    output_q = multiprocessing.Queue()
+
+    # Создаем и запускаем процессы
     processes = []
+    for _ in range(cpu_count):
+        p = multiprocessing.Process(target=worker_with_queue, args=(input_q, output_q))
+        p.start()
+        processes.append(p)
 
-    for i in range(multiprocessing.cpu_count()):
-        chunk = nums[i * chunk_size : (i + 1) * chunk_size]
-        process = multiprocessing.Process(target=worker, args=(chunk, output))
-        processes.append(process)
-        process.start()
+    # Кладем все данные в очередь
+    for num in nums:
+        input_q.put(num)
 
-    for process in processes:
-        process.join()
+    # Кладем sentinel для каждого процесса
+    for _ in range(cpu_count):
+        input_q.put(None)
+
+    # Собираем результаты
+    results = []
+    for _ in nums:
+        results.append(output_q.get())
+
+    # Дожидаемся завершения всех процессов
+    for p in processes:
+        p.join()
 
 
 # Однопоточный (однопроцессный) вариант.
@@ -55,19 +78,22 @@ def single_thread(nums: list[int]) -> None:
 
 
 def main():
-    nums = generate_data(300)
-    results = []
-
-    for method_name, func in [
+    sizes = [100, 1000, 5000, 10000, 20000]
+    methods = [
         ("SingleThread", single_thread),
         ("ThreadPoolExecutor", thread_pool_executor),
         ("MultiprocessingPool", multiprocessing_pool),
         ("MultiprocessingProcesses", multiprocessing_processes),
-    ]:
-        start_time = time.time()
-        func(nums)
-        end_time = time.time() - start_time
-        results.append({"method": method_name, "time": end_time})
+    ]
+
+    results = []
+    for n in sizes:
+        nums = generate_data(n)
+        for method_name, func in methods:
+            start = time.perf_counter()
+            func(nums)
+            end = time.perf_counter() - start
+            results.append({"n": n, "method": method_name, "time": end})
 
     with open("./results.json", "w", encoding="utf-8") as file:
         json.dump(results, file, indent=2)

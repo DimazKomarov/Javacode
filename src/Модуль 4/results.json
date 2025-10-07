@@ -1,18 +1,102 @@
 [
   {
+    "n": 100,
     "method": "SingleThread",
-    "time": 0.06095552444458008
+    "time": 0.019273300014901906
   },
   {
+    "n": 100,
     "method": "ThreadPoolExecutor",
-    "time": 0.09112954139709473
+    "time": 0.04932680001365952
   },
   {
+    "n": 100,
     "method": "MultiprocessingPool",
-    "time": 0.3533754348754883
+    "time": 0.48605350000434555
   },
   {
+    "n": 100,
     "method": "MultiprocessingProcesses",
-    "time": 0.35782289505004883
+    "time": 0.3200979999965057
+  },
+  {
+    "n": 1000,
+    "method": "SingleThread",
+    "time": 0.17665119998855516
+  },
+  {
+    "n": 1000,
+    "method": "ThreadPoolExecutor",
+    "time": 0.1980903999938164
+  },
+  {
+    "n": 1000,
+    "method": "MultiprocessingPool",
+    "time": 0.3913355999975465
+  },
+  {
+    "n": 1000,
+    "method": "MultiprocessingProcesses",
+    "time": 0.4964448000246193
+  },
+  {
+    "n": 5000,
+    "method": "SingleThread",
+    "time": 0.8379955999844242
+  },
+  {
+    "n": 5000,
+    "method": "ThreadPoolExecutor",
+    "time": 1.0322711000044364
+  },
+  {
+    "n": 5000,
+    "method": "MultiprocessingPool",
+    "time": 0.866998000012245
+  },
+  {
+    "n": 5000,
+    "method": "MultiprocessingProcesses",
+    "time": 1.3481332000228576
+  },
+  {
+    "n": 10000,
+    "method": "SingleThread",
+    "time": 1.70927959997789
+  },
+  {
+    "n": 10000,
+    "method": "ThreadPoolExecutor",
+    "time": 2.0283578999806195
+  },
+  {
+    "n": 10000,
+    "method": "MultiprocessingPool",
+    "time": 1.2204031999863219
+  },
+  {
+    "n": 10000,
+    "method": "MultiprocessingProcesses",
+    "time": 2.7380746999988332
+  },
+  {
+    "n": 20000,
+    "method": "SingleThread",
+    "time": 3.5450716000050306
+  },
+  {
+    "n": 20000,
+    "method": "ThreadPoolExecutor",
+    "time": 4.05999989999691
+  },
+  {
+    "n": 20000,
+    "method": "MultiprocessingPool",
+    "time": 2.8550619000161532
+  },
+  {
+    "n": 20000,
+    "method": "MultiprocessingProcesses",
+    "time": 12.636261899984675
   }
 ]

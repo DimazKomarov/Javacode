@@ -1,21 +1,25 @@
 import functools
 import unittest.mock
+from collections import OrderedDict
 
 
-def lru_cache(call=None, *, maxsize=None):
+def lru_cache(call=None, *, maxsize=128):
     def decorator(func):
-        cache = {}
+        cache = OrderedDict()
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             key = (*args, *kwargs.values())
-            if key in cache:
-                return cache[key]
+
+            result = cache.get(key, None)
+            if result is not None:
+                cache.move_to_end(key)
+                return result
 
             result = func(*args, **kwargs)
 
-            if len(cache) == maxsize:
-                cache.pop(next(iter(cache)))
+            if len(cache) >= maxsize:
+                cache.popitem(last=False)
 
             cache[key] = result
 

@@ -20,12 +20,18 @@ print(a is b)  # True
 
 # Синглтон через __new__
 class MySingleton:
-    _instance = None
+    _instances = {}
+    _initialized = False
 
     def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-        return cls._instance
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__new__(cls)
+        return cls._instances[cls]
+
+    def __init__(self, *args, **kwargs):
+        if not self._initialized:
+            self._initialized = True
+        return
 
 
 a = MySingleton()
