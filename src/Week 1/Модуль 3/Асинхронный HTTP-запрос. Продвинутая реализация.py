@@ -132,4 +132,4 @@ async def fetch_urls(input_file: str, output_file: str, concurrency: int = 5) ->
 
 
 if __name__ == "__main__":
-    asyncio.run(fetch_urls("./urls.txt", "./results_advanced.jsonl"))
+    asyncio.run(fetch_urls("urls.txt", "./results_advanced.jsonl"))

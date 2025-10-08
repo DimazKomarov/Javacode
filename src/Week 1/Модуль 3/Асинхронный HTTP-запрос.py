@@ -43,4 +43,4 @@ if __name__ == "__main__":
         "https://httpbin.org/status/404",
         "https://nonexistent.url",
     ]
-    asyncio.run(fetch_urls(urls, "./results.jsonl"))
+    asyncio.run(fetch_urls(urls, "results.jsonl"))

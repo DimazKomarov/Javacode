@@ -95,7 +95,7 @@ def main():
             end = time.perf_counter() - start
             results.append({"n": n, "method": method_name, "time": end})
 
-    with open("./results.json", "w", encoding="utf-8") as file:
+    with open("results.json", "w", encoding="utf-8") as file:
         json.dump(results, file, indent=2)
 
 
